@@ -100,7 +100,7 @@ main {
 }
 
 .fruit__item {
-  margin: 10px;
+  margin: 3px;
   padding: 10px;
   width: fit-content;
   height: 100px;
@@ -125,6 +125,10 @@ main {
 
 .fruit_lightbrown {
   background: #cd853f;
+}
+
+.fruit_newFruit {
+  background: #369dd9;
 }
 
 .fruit__info {

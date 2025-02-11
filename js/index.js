@@ -5,7 +5,6 @@ const filterButton = document.querySelector('.filter__btn'); // кнопка ф�
 const sortKindLabel = document.querySelector('.sort__kind'); // поле с названием сортировки
 const sortTimeLabel = document.querySelector('.sort__time'); // поле с временем сортировки
 const sortChangeButton = document.querySelector('.sort__change__btn'); // кнопка смены сортировки
-
 const sortActionButton = document.querySelector('.sort__action__btn'); // кнопка сортировки
 const kindInput = document.querySelector('.kind__input'); // поле с названием вида
 const colorInput = document.querySelector('.color__input'); // поле с названием цвета
@@ -28,8 +27,8 @@ var randomItems = [0, 1, 2, 3, 4];
 
   /*** ОТОБРАЖЕНИЕ ***/
 function display() {
-    let x = 0
-    let u = fruits.length;
+  let x = 0
+  let u = fruits.length;
     
     while (x <= u-1) {         
      let k =   randomItems[x]
@@ -62,7 +61,6 @@ function display() {
     }    console.log(" отрисовка")
 }; 
 
-
 /*** ПЕРЕМЕШИВАНИЕ ***/
 
 const getRandomInt = (min, max) => {
@@ -70,26 +68,25 @@ const getRandomInt = (min, max) => {
 };
 
 // перемешивание массива
+shuffleButton.addEventListener('click', () => {
+  firstResult = fruits
+  shuffleFruits(fruits)
+  firstResult == fruits ? alert('Не удача, жмите ещё') : display(fruits);
+});
 
 const shuffleFruits = () => {
   let result = [];
   let el = 0;
 
-  while (randomItems.length > 0) {
-    iRand = getRandomInt(0, randomItems.length - 1)
-    result[el] = randomItems[iRand]
-    randomItems.splice(iRand, 1)
+  while (fruits.length > 0) {
+    iRand = getRandomInt(0, fruits.length - 1)
+    result[el] = fruits[iRand]
+    fruits.splice(iRand, 1)
     el += 1
   }
-  randomItems = result;
+  fruits = result;
 };
-let firstResult = [];
-shuffleButton.addEventListener('click', () => {
-   firstResult = randomItems
-   shuffleFruits(randomItems)
-   firstResult == randomItems ? alert('пробуйте еще') : display(randomItems);
-});
-    
+let firstResult = [];    
    
          /*** ФИЛЬТРАЦИЯ ***/
 
@@ -105,35 +102,8 @@ function filterFruits(result) {
      
 filterButton.addEventListener('click', () => {
   filterFruits(fruits);
-  let x = 0
-    let u = fruits.length    
-    while (x <= u-1) {         
-           
-     let listt = document.createElement('li')
-     listt.classList.add(fruits[x].color_board,'fruit__item')
-     fruitsList.appendChild(listt) 
-   
-     let div = document.createElement('div')
-     div.className = 'fruit__info'
-     listt.appendChild(div)      
-
-     let div1 = document.createElement("div")
-     div1.innerText =  "Индекс - " + x
-     div.append(div1)
-
-     let div2 = document.createElement("div")
-     div2.innerText = "Сорт - "+ fruits[x].kind
-     div.append(div2)
-
-     let div3 = document.createElement("div")
-     div3.innerText = "Цвет-" + fruits[x].color
-     div.append(div3)
-
-     let div4 = document.createElement("div")
-     div4.innerText =  "Вес - " + fruits[x].weight + "кг"
-     div.append(div4)      
-     x+=1
-    }    console.log("Вывод сортированых по массе")
+  display(fruits)
+  console.log("Вывод сортированых по массе")
 });
 
 
@@ -150,12 +120,9 @@ let comparationColor = (a, b) => {              //  функция сравне�
   return kazOhotnik.indexOf(a.color) > kazOhotnik.indexOf(b.color) ? true : false;
 };
 
-
-
  //////////////////// Пузырьками
 
- function bubbleSort(fruits) {  
-  
+function bubbleSort(fruits) {   
   const n = fruits.length; 
   console.log(' Сортировка Пузырьки')      
   for (let i = 0; i < n-1; i++) {            
@@ -166,17 +133,16 @@ let comparationColor = (a, b) => {              //  функция сравне�
         fruits[j] = temp; 
       }
     }
-  }    
-                  
+  }                   
 };
   ///////////Старт сорт
-  sortActionButton.addEventListener('click', () => {
+sortActionButton.addEventListener('click', () => {
     const start = new Date().getTime(); 
     sortKindLabel.textContent == 'bubbleSort' ? bubbleSort(fruits) : quickSort(); 
     const end = new Date().getTime();
     sortTimeLabel.textContent = `${end - start} ms`; 
     display();
-  });
+});
 
 
 // инициализация полей
@@ -233,21 +199,16 @@ sortChangeButton.addEventListener('click', () => {
   sortKindLabel.textContent == 'bubbleSort' ? sortKindLabel.textContent = 'quickSort' : sortKindLabel.textContent = 'bubbleSort';
 });
 
-
 /*** ДОБАВИТЬ ФРУКТ ***/
-
 addActionButton.addEventListener('click', () => {
-  //fruits.forEach(el => console.log(el));
-   // добавлять
-
-   if ((kindInput.value == '') || (weightInput.value == ''||(colorInput.value == ''))) {
+  
+  if ((kindInput.value == '') || (weightInput.value == ''||(colorInput.value == ''))) {
     alert('не хватает данных');
   } else {
   let tem = fruits.length ;
   fruits.splice(tem,0,{kind: kindInput.value, color: colorInput.value, weight: weightInput.value, "color_board":"fruit_newFruit"})
   let l =fruits.length -1;
-  randomItems.splice(tem,0,l)
-  
+  randomItems.splice(tem,0,l)  
   display(fruits);
   }
 

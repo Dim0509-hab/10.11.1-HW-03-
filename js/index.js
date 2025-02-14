@@ -23,18 +23,17 @@ window.onload = () => {
   display();
 };
 let fruits = JSON.parse(fruitsJSON);
-var randomItems = [0, 1, 2, 3, 4];
+
 
   /*** ОТОБРАЖЕНИЕ ***/
 function display() {
   let x = 0
   let u = fruits.length;
-    
+  const fruitsList = document.querySelector('.fruits__list'); // список карточек 
     while (x <= u-1) {         
-     let k =   randomItems[x]
-     
+    
      let listt = document.createElement('li')
-     listt.classList.add(fruits[k].color_board,'fruit__item')
+     listt.classList.add(fruits[x].color_board,'fruit__item')
      fruitsList.appendChild(listt) 
    
      let div = document.createElement('div')
@@ -42,19 +41,19 @@ function display() {
      listt.appendChild(div)      
 
      let div1 = document.createElement("div")
-     div1.innerText =  "Индекс - " + k
+     div1.innerText =  "Индекс - " + x
      div.append(div1)
 
      let div2 = document.createElement("div")
-     div2.innerText = "Сорт - "+ fruits[k].kind
+     div2.innerText = "Сорт - "+ fruits[x].kind
      div.append(div2)
 
      let div3 = document.createElement("div")
-     div3.innerText = "Цвет-" + fruits[k].color
+     div3.innerText = "Цвет-" + fruits[x].color
      div.append(div3)
 
      let div4 = document.createElement("div")
-     div4.innerText =  "Вес - " + fruits[k].weight + "кг"
+     div4.innerText =  "Вес - " + fruits[x].weight + "кг"
      div.append(div4)   
     
      x+=1
@@ -69,9 +68,20 @@ const getRandomInt = (min, max) => {
 
 // перемешивание массива
 shuffleButton.addEventListener('click', () => {
-  firstResult = fruits
-  shuffleFruits(fruits)
-  firstResult == fruits ? alert('Не удача, жмите ещё') : display(fruits);
+   //firstResult = fruits
+   let oldFr = JSON.stringify(fruits)   
+  shuffleFruits(fruits)  
+  let newFr = JSON.stringify(fruits)
+  if (  oldFr === newFr) {alert('Не удача, жмите ещё')
+
+   } else { 
+  let oldNode = document.querySelectorAll("ul")[0];
+    let fruitsList = document.createElement("ul");
+    fruitsList.className = "fruits__list";
+    oldNode.replaceWith(fruitsList);
+  
+  display(fruits);
+   }
 });
 
 const shuffleFruits = () => {
@@ -102,6 +112,10 @@ function filterFruits(result) {
      
 filterButton.addEventListener('click', () => {
   filterFruits(fruits);
+  let oldNode = document.querySelectorAll("ul")[0];
+    let fruitsList = document.createElement("ul");
+    fruitsList.className = "fruits__list";
+    oldNode.replaceWith(fruitsList);
   display(fruits)
   console.log("Вывод сортированых по массе")
 });
@@ -138,7 +152,13 @@ function bubbleSort(fruits) {
   ///////////Старт сорт
 sortActionButton.addEventListener('click', () => {
     const start = new Date().getTime(); 
-    sortKindLabel.textContent == 'bubbleSort' ? bubbleSort(fruits) : quickSort(); 
+    sortKindLabel.textContent == 'bubbleSort' ? bubbleSort(fruits) : quickSort();
+    
+    let oldNode = document.querySelectorAll("ul")[0];
+    let fruitsList = document.createElement("ul");
+    fruitsList.className = "fruits__list";
+    oldNode.replaceWith(fruitsList);
+    
     const end = new Date().getTime();
     sortTimeLabel.textContent = `${end - start} ms`; 
     display();
@@ -204,12 +224,14 @@ addActionButton.addEventListener('click', () => {
   
   if ((kindInput.value == '') || (weightInput.value == ''||(colorInput.value == ''))) {
     alert('не хватает данных');
-  } else {
-  let tem = fruits.length ;
-  fruits.splice(tem,0,{kind: kindInput.value, color: colorInput.value, weight: weightInput.value, "color_board":"fruit_newFruit"})
-  let l =fruits.length -1;
-  randomItems.splice(tem,0,l)  
-  display(fruits);
+  } else  {
+    let tem = fruits.length ;
+    fruits.splice(tem,0,{kind: kindInput.value, color: colorInput.value, weight: weightInput.value, "color_board":"fruit_newFruit"})
+    let oldNode = document.querySelectorAll("ul")[0];
+    let fruitsList = document.createElement("ul");
+    fruitsList.className = "fruits__list";
+    oldNode.replaceWith(fruitsList);display(fruits);
+      console.log(" отрисовка + новый фрукт")  
   }
 
 });

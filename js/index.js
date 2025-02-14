@@ -27,10 +27,15 @@ let fruits = JSON.parse(fruitsJSON);
 
   /*** ОТОБРАЖЕНИЕ ***/
 function display() {
-  let x = 0
-  let u = fruits.length;
-  const fruitsList = document.querySelector('.fruits__list'); // список карточек 
-    while (x <= u-1) {         
+
+  let oldNode = document.querySelectorAll("ul")[0];  /////////////  Очистка экрана
+    let fruitsList = document.createElement("ul");
+    fruitsList.className = "fruits__list";
+    oldNode.replaceWith(fruitsList);
+
+   let x = 0
+   let u = fruits.length;
+     while (x <= u-1) {         
     
      let listt = document.createElement('li')
      listt.classList.add(fruits[x].color_board,'fruit__item')
@@ -73,13 +78,7 @@ shuffleButton.addEventListener('click', () => {
   shuffleFruits(fruits)  
   let newFr = JSON.stringify(fruits)
   if (  oldFr === newFr) {alert('Не удача, жмите ещё')
-
-   } else { 
-  let oldNode = document.querySelectorAll("ul")[0];
-    let fruitsList = document.createElement("ul");
-    fruitsList.className = "fruits__list";
-    oldNode.replaceWith(fruitsList);
-  
+   } else {   
   display(fruits);
    }
 });
@@ -106,16 +105,11 @@ const maximaInput = document.querySelector('.maxweight__input'); // поле м�
 
 // фильтрация по массе
 function filterFruits(result) {
-  fruits = result.filter(item => ((item.weight >= minimaInput.value) && (item.weight <= maximaInput.value)))
-  
+  fruits = result.filter(item => ((item.weight >= minimaInput.value) && (item.weight <= maximaInput.value)))  
 };
      
 filterButton.addEventListener('click', () => {
-  filterFruits(fruits);
-  let oldNode = document.querySelectorAll("ul")[0];
-    let fruitsList = document.createElement("ul");
-    fruitsList.className = "fruits__list";
-    oldNode.replaceWith(fruitsList);
+  filterFruits(fruits);  
   display(fruits)
   console.log("Вывод сортированых по массе")
 });
@@ -152,13 +146,7 @@ function bubbleSort(fruits) {
   ///////////Старт сорт
 sortActionButton.addEventListener('click', () => {
     const start = new Date().getTime(); 
-    sortKindLabel.textContent == 'bubbleSort' ? bubbleSort(fruits) : quickSort();
-    
-    let oldNode = document.querySelectorAll("ul")[0];
-    let fruitsList = document.createElement("ul");
-    fruitsList.className = "fruits__list";
-    oldNode.replaceWith(fruitsList);
-    
+    sortKindLabel.textContent == 'bubbleSort' ? bubbleSort(fruits) : quickSort();        
     const end = new Date().getTime();
     sortTimeLabel.textContent = `${end - start} ms`; 
     display();
@@ -227,12 +215,8 @@ addActionButton.addEventListener('click', () => {
   } else  {
     let tem = fruits.length ;
     fruits.splice(tem,0,{kind: kindInput.value, color: colorInput.value, weight: weightInput.value, "color_board":"fruit_newFruit"})
-    let oldNode = document.querySelectorAll("ul")[0];
-    let fruitsList = document.createElement("ul");
-    fruitsList.className = "fruits__list";
-    oldNode.replaceWith(fruitsList);display(fruits);
+    display(fruits);
       console.log(" отрисовка + новый фрукт")  
   }
-
 });
 
